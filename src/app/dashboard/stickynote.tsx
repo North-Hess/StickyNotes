@@ -18,6 +18,8 @@ export function Stickynote() {
     setContent(event.target.value);
   };
 
+  
+
   return (
     <div className="border-2 border-black rounded-sm bg-yellow-200 shadow-xl flex flex-col w-1/4">
       <form>
@@ -33,8 +35,14 @@ export function Stickynote() {
           onChange={changeContent}
           className="bg-inherit text-md h-56 px-2 w-full resize-none outline-none"
         ></textarea>
-        <h2 className="text-xs italic px-2">Date of sticky note</h2>
+        <div className="flex flex-row border border-black">
+          <h2 className="text-xs italic p-2 w-2/3 border border-black">
+            {time}
+          </h2>
+          <input type="submit" className="w-1/3 border border-black cursor-pointer"></input>
+        </div>
       </form>
     </div>
   );
 }
+
