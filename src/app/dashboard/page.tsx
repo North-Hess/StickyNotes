@@ -1,6 +1,13 @@
 import { Stickynote } from "./stickynote";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const session = await getServerSession();
+  if (!session || !session.user) {
+    redirect("api/auth/signin");
+  }
+
   return (
     <main>
       <h1>This is the dashboard page</h1>
