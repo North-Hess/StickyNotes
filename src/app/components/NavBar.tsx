@@ -19,40 +19,23 @@ function AuthButton({ session }: SessionProp) {
 }
 
 function ProfilePicture({ session }: SessionProp) {
-  if (session) {
-    return (
-      <>
-        <div className="h-16 w-16">
-          <Image
-            src={session?.user?.image ?? "/next.svg"}
-            width={64}
-            height={64}
-            alt="User profile picture"
-            className="border border-black rounded-full"
-            placeholder="data:image/next.svg"
-          />
-        </div>
-        <div className="flex flex-col h-auto justify-center px-4 border border-black">
-          <text className="">
-            Welcome {session?.user?.name?.split(" ")[0] || ""}!
-          </text>
-        </div>
-      </>
-    );
-  }
+  console.log(session?.user?.image);
   return (
     <>
       <div className="h-16 w-16">
         <Image
-          src={""}
+          src={session?.user?.image ?? "/next.svg"}
           width={64}
           height={64}
           alt="User profile picture"
-          className="border border-black rounded-full"
+          className="rounded-full border border-black"
+          placeholder="data:image/svg,/next.svg"
         />
       </div>
-      <div className="flex flex-col h-auto justify-center px-4 border border-black">
-        <text className="">Welcome</text>
+      <div className="flex h-auto flex-col justify-center border border-black px-4">
+        <text className="">
+          Welcome{session ? " " + session?.user?.name?.split(" ")[0] : ""}!
+        </text>
       </div>
     </>
   );
@@ -61,7 +44,7 @@ function ProfilePicture({ session }: SessionProp) {
 export default function NavBar() {
   const { data: session } = useSession();
   return (
-    <div className="bg-slate-400 p-2 flex flex-row border border-black">
+    <div className="flex flex-row border border-black bg-slate-400 p-2">
       <ProfilePicture session={session} />
       <AuthButton session={session} />
     </div>
