@@ -19,7 +19,6 @@ function AuthButton({ session }: SessionProp) {
 }
 
 function ProfilePicture({ session }: SessionProp) {
-  console.log(session?.user?.image);
   return (
     <>
       <div className="h-16 w-16">
