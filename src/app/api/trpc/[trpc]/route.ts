@@ -2,13 +2,31 @@ import { PrismaClient } from "@prisma/client";
 import { publicProcedure, router } from "@/app/server/api/router";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { getServerSession } from "next-auth";
+import { z } from "zod";
 
 const prisma = new PrismaClient();
 const appRouter = router({
-  userList: publicProcedure.query(async () => {
-    const users = await prisma.user.findMany();
+  getUser: publicProcedure.input(z.string()).query(async (opts) => {
+    const { input } = opts;
+    const user = await prisma.user.findUnique({
+      where: {
+        email: input,
+      },
+    });
 
-    return users;
+    return user;
+  }),
+  getNotes: publicProcedure.input(z.number()).query(async (opts) => {
+    const { input } = opts;
+    const notes = await prisma.note.findMany({
+      where: {
+        userid: {
+          equals: input,
+        },
+      },
+    });
+
+    return notes;
   }),
 });
 

@@ -17,15 +17,16 @@ export default async function Dashboard() {
     ],
   });
 
-  const users = await trpc.userList.query();
+  const userId = await trpc.getUser.query(session.user.email ?? "");
+  const notes = await trpc.getNotes.query(userId?.id ?? 0);
 
   return (
     <main>
-      <h1>This is the dashboard page, {users[0].email}</h1>
+      <h1>This is the dashboard page</h1>
       <div className="flex w-full flex-row flex-wrap justify-center gap-8">
-        <Stickynote />
-        <Stickynote />
-        <Stickynote />
+        {notes.map((note) => (
+          <Stickynote {...note} key={note.id} />
+        ))}
       </div>
     </main>
   );
