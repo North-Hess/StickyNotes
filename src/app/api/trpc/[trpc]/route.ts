@@ -13,7 +13,6 @@ const appRouter = router({
         email: input,
       },
     });
-
     return user;
   }),
   getNotes: publicProcedure.input(z.number()).query(async (opts) => {
@@ -25,9 +24,32 @@ const appRouter = router({
         },
       },
     });
-
     return notes;
   }),
+  getNote: publicProcedure.input(z.number()).query(async (opts) => {
+    const { input } = opts;
+    const note = await prisma.note.findUnique({
+      where: {
+        id: input,
+      },
+    });
+    return note;
+  }),
+  saveNote: publicProcedure
+    .input(z.object({ id: z.number(), title: z.string(), content: z.string() }))
+    .mutation(async (opts) => {
+      const { id, title, content } = opts.input;
+      const updatedNote = await prisma.note.update({
+        where: {
+          id: id,
+        },
+        data: {
+          title: title,
+          content: content,
+        },
+      });
+      return updatedNote;
+    }),
 });
 
 // Export type router type signature,

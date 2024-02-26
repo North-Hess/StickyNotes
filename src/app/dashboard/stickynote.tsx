@@ -1,7 +1,10 @@
 "use client";
 import { SetStateAction, useState } from "react";
+import { createTRPCClient, httpBatchLink } from "@trpc/client";
+import { AppRouter } from "../api/trpc/[trpc]/route";
+import { now } from "next-auth/client/_utils";
 
-type NoteProp = {
+export type NoteProp = {
   id: number;
   userid: number;
   title: string;
@@ -13,6 +16,7 @@ export function Stickynote(note: NoteProp) {
   const [title, setTitle] = useState(note.title);
   const [content, setContent] = useState(note.content);
   const [time, setTime] = useState(note.updatedAt);
+  const id = note.id;
 
   const changeTitle = (event: {
     target: { value: SetStateAction<string> };
@@ -26,9 +30,17 @@ export function Stickynote(note: NoteProp) {
     setContent(event.target.value);
   };
 
+  const trpc = createTRPCClient<AppRouter>({
+    links: [
+      httpBatchLink({
+        url: "http://localhost:3000/api/trpc",
+      }),
+    ],
+  });
+
   return (
     <div className="flex w-1/4 flex-col rounded-sm border-2 border-black bg-yellow-200 shadow-xl">
-      <form>
+      <form key={id}>
         <textarea
           maxLength={42}
           value={title}
@@ -47,6 +59,14 @@ export function Stickynote(note: NoteProp) {
           </h2>
           <input
             type="submit"
+            formAction={async () => {
+              const updatedNote = await trpc.saveNote.mutate({
+                id,
+                title,
+                content,
+              });
+              setTime(updatedNote.updatedAt);
+            }}
             className="w-1/3 cursor-pointer border border-black"
           ></input>
         </div>
