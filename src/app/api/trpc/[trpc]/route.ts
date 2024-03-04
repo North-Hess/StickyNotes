@@ -1,54 +1,38 @@
-import { PrismaClient } from "@prisma/client";
-import { publicProcedure, router } from "@/app/server/api/router";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
-import { getServerSession } from "next-auth";
 import { z } from "zod";
+import { createContextInner } from "./context";
+import { NextRequest } from "next/server";
+import { router, publicProcedure } from "@/app/server/api/router";
 
-const prisma = new PrismaClient();
 const appRouter = router({
-  getUser: publicProcedure.input(z.string()).query(async (opts) => {
-    const { input } = opts;
-    const user = await prisma.user.findUnique({
-      where: {
-        email: input,
-      },
-    });
-    return user;
-  }),
-  getNotes: publicProcedure.input(z.number()).query(async (opts) => {
-    const { input } = opts;
-    const notes = await prisma.note.findMany({
-      where: {
-        userid: {
-          equals: input,
-        },
-      },
-    });
-    return notes;
-  }),
-  getNote: publicProcedure.input(z.number()).query(async (opts) => {
-    const { input } = opts;
-    const note = await prisma.note.findUnique({
-      where: {
-        id: input,
-      },
-    });
-    return note;
-  }),
-  saveNote: publicProcedure
-    .input(z.object({ id: z.number(), title: z.string(), content: z.string() }))
-    .mutation(async (opts) => {
-      const { id, title, content } = opts.input;
-      const updatedNote = await prisma.note.update({
+  getNotes: publicProcedure
+    .input(z.object({ userEmail: z.string() }))
+    .query(async ({ input, ctx }) => {
+      const user = await ctx.prisma.user.findUnique({
         where: {
-          id: id,
-        },
-        data: {
-          title: title,
-          content: content,
+          email: input.userEmail,
         },
       });
-      return updatedNote;
+      return ctx.prisma.note.findMany({
+        where: {
+          userId: {
+            equals: user?.id || "",
+          },
+        },
+      });
+    }),
+  saveNote: publicProcedure
+    .input(z.object({ id: z.string(), title: z.string(), content: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      return ctx.prisma.note.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          title: input.title,
+          content: input.content,
+        },
+      });
     }),
 });
 
@@ -56,12 +40,16 @@ const appRouter = router({
 // NOT the router itself.
 export type AppRouter = typeof appRouter;
 
-const handler = (req: Request) =>
+const handler = (req: NextRequest) =>
   fetchRequestHandler({
     endpoint: "api/trpc",
     req,
     router: appRouter,
-    createContext: () => getServerSession(),
+    async createContext() {
+      return createContextInner({
+        req,
+      });
+    },
   });
 
 export { handler as GET, handler as POST };

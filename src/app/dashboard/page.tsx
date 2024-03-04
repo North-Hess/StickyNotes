@@ -1,24 +1,15 @@
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { Stickynote } from "./stickynote";
-import { createTRPCClient, httpBatchLink } from "@trpc/client";
-import { AppRouter } from "../api/trpc/[trpc]/route";
+import { getAuth } from "../api/auth/[...nextauth]/route";
+import { trpc } from "../api/trpc/[trpc]/trpcClient";
 
 export default async function Dashboard() {
-  const session = await getServerSession();
-  if (!session || !session.user) {
+  const session = await getAuth();
+  if (!session || !session.user || !session.user.email) {
     redirect("api/auth/signin");
   }
-  const trpc = createTRPCClient<AppRouter>({
-    links: [
-      httpBatchLink({
-        url: "http://localhost:3000/api/trpc",
-      }),
-    ],
-  });
 
-  const userId = await trpc.getUser.query(session.user.email ?? "");
-  const notes = await trpc.getNotes.query(userId?.id ?? 0);
+  const notes = await trpc.getNotes.query({ userEmail: session.user.email });
 
   return (
     <main>
