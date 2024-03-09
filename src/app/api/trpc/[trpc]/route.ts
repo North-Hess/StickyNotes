@@ -5,6 +5,15 @@ import { NextRequest } from "next/server";
 import { router, publicProcedure } from "@/app/server/api/router";
 
 const appRouter = router({
+  getUserId: publicProcedure
+    .input(z.object({ userEmail: z.string() }))
+    .query(async ({ input, ctx }) => {
+      return ctx.prisma.user.findUnique({
+        where: {
+          email: input.userEmail,
+        },
+      });
+    }),
   getNotes: publicProcedure
     .input(z.object({ userEmail: z.string() }))
     .query(async ({ input, ctx }) => {
@@ -29,6 +38,23 @@ const appRouter = router({
           id: input.id,
         },
         data: {
+          title: input.title,
+          content: input.content,
+        },
+      });
+    }),
+  createNote: publicProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        title: z.string(),
+        content: z.string(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      return ctx.prisma.note.create({
+        data: {
+          userId: input.userId,
           title: input.title,
           content: input.content,
         },
