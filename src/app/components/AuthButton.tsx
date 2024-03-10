@@ -8,7 +8,7 @@ export function AuthButton({ session }: SessionProp) {
       <div className="flex flex-col justify-center">
         <div className="flex h-8 flex-col justify-center rounded bg-gray-700 ring-2 ring-gray-700">
           <button
-            className="mx-2 h-6 text-base transition-colors duration-300 ease-in-out hover:text-gray-300"
+            className="mx-2 h-6 font-mono text-base tracking-tight transition-colors duration-300 ease-in-out hover:text-gray-300"
             onClick={() => signOut()}
           >
             Sign Out
@@ -21,7 +21,7 @@ export function AuthButton({ session }: SessionProp) {
     <div className="flex flex-col justify-center">
       <div className="flex h-8 flex-col justify-center rounded bg-gray-700 ring-2 ring-gray-700">
         <button
-          className="mx-2 h-6 text-base transition-colors duration-300 ease-in-out hover:text-gray-300"
+          className="mx-2 h-6 font-mono text-base tracking-tight transition-colors duration-300 ease-in-out hover:text-gray-300"
           onClick={() => signIn()}
         >
           Sign In
