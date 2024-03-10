@@ -15,13 +15,13 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <main>
-          <SessionProvider>
+      <body className="bg-black">
+        <SessionProvider>
+          <header>
             <NavBar />
-            {children}
-          </SessionProvider>
-        </main>
+          </header>
+          <main>{children}</main>
+        </SessionProvider>
       </body>
     </html>
   );
