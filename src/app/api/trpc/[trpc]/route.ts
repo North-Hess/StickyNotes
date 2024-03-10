@@ -60,6 +60,19 @@ const appRouter = router({
         },
       });
     }),
+  deleteNote: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      return ctx.prisma.note.delete({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
 });
 
 // Export type router type signature,
