@@ -22,6 +22,15 @@ export default async function RootLayout({
           </header>
           <main>{children}</main>
         </SessionProvider>
+        <footer className="pl-2 text-center font-mono tracking-tight text-white">
+          Built by{" "}
+          <a
+            href="https://github.com/North-Hess/"
+            className="underline underline-offset-4"
+          >
+            North Hess
+          </a>
+        </footer>
       </body>
     </html>
   );
