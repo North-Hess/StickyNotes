@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { StickyNotes } from "./StickyNote";
+import { StickyNotes } from "../components/StickyNote";
 import { getAuth } from "../api/auth/[...nextauth]/getAuth";
 import { trpc } from "../api/trpc/[trpc]/trpcClient";
 
