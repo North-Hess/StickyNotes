@@ -1,8 +1,7 @@
-import { getAuth } from "../api/auth/[...nextauth]/route";
+import { getAuth } from "../api/auth/[...nextauth]/getAuth";
 import { AuthButton } from "./AuthButton";
 import { ProfilePicture } from "./ProfilePicture";
 import NavButton from "./NavButton";
-import Image from "next/image";
 import { ThemeToggle } from "./ThemeToggle";
 
 export default async function NavBar() {
