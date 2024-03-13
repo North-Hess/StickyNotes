@@ -38,7 +38,7 @@ function StickyNote(props: {
   };
 
   return (
-    <div className="flex w-1/4 flex-col rounded-sm border-2 border-black bg-yellow-200 shadow-xl">
+    <div className="flex h-72 w-1/4 flex-col rounded-sm border-2 border-black bg-yellow-200 shadow-xl">
       <div className="flex flex-row bg-yellow-300">
         <textarea
           maxLength={42}
@@ -65,8 +65,10 @@ function StickyNote(props: {
         onChange={changeContent}
         className="text-md h-56 w-full resize-none bg-inherit px-2 outline-none placeholder:italic placeholder:text-slate-600"
       ></textarea>
-      <div className="flex flex-row border border-black">
-        <h2 className="w-2/3 border border-black p-2 text-xs italic">{time}</h2>
+      <div className="flex flex-row border-t-2 border-black">
+        <h2 className="w-2/3 border-r-2 border-black p-2 text-xs italic">
+          {time}
+        </h2>
         <button
           onClick={async () => {
             var updatedNote;
@@ -87,7 +89,7 @@ function StickyNote(props: {
             }
             setTime(updatedNote.updatedAt.toLocaleString());
           }}
-          className="w-1/3 cursor-pointer border border-black"
+          className="w-1/3"
         >
           Submit
         </button>
@@ -133,20 +135,22 @@ export function StickyNotes(props: {
   const noteLimit = () => {
     if (notes.length < 12) {
       return (
-        <button
-          onClick={() => {
-            addNewNote();
-          }}
-          className="h-16 border border-black"
-        >
-          New Note
-        </button>
+        <div className="flex flex-col justify-center">
+          <button
+            onClick={() => {
+              addNewNote();
+            }}
+            className="ml-8 h-auto text-6xl text-black dark:text-white"
+          >
+            +
+          </button>
+        </div>
       );
     }
   };
 
   return (
-    <div className="flex w-full flex-row flex-wrap justify-center gap-8">
+    <div className="flex min-h-[288px] w-full flex-row flex-wrap justify-center gap-8">
       {notes.map((note) => (
         <StickyNote note={note} removeNote={deleteNote} key={note.id} />
       ))}

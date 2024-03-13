@@ -14,15 +14,15 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="bg-black">
+    <html lang="en" className="dark" id="html">
+      <body className="bg-white dark:bg-black">
         <SessionProvider>
           <header>
             <NavBar />
           </header>
           <main>{children}</main>
         </SessionProvider>
-        <footer className="pl-2 text-center font-mono tracking-tight text-white">
+        <footer className="pl-2 text-center font-mono tracking-tight text-black dark:text-white">
           Built by{" "}
           <a
             href="https://github.com/North-Hess/"
