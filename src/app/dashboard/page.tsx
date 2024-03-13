@@ -13,15 +13,8 @@ export default async function Dashboard() {
   const notes = await trpc.getNotes.query({ userEmail: email });
 
   return (
-    <main>
-      <h1>This is the dashboard page</h1>
-      {/* <div className="flex w-full flex-row flex-wrap justify-center gap-8">
-        {notes.map((note) => (
-          <Stickynote {...note} key={note.id} />
-        ))}
-        <NewNote userId={user?.id || ""} />
-      </div> */}
+    <div className="my-10">
       <StickyNotes currentNotes={notes} userId={user?.id || ""} />
-    </main>
+    </div>
   );
 }

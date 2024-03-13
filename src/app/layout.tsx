@@ -14,14 +14,23 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        <main>
-          <SessionProvider>
+    <html lang="en" className="dark" id="html">
+      <body className="bg-white dark:bg-black">
+        <SessionProvider>
+          <header>
             <NavBar />
-            {children}
-          </SessionProvider>
-        </main>
+          </header>
+          <main>{children}</main>
+        </SessionProvider>
+        <footer className="pl-2 text-center font-mono tracking-tight text-black dark:text-white">
+          Built by{" "}
+          <a
+            href="https://github.com/North-Hess/"
+            className="underline underline-offset-4"
+          >
+            North Hess
+          </a>
+        </footer>
       </body>
     </html>
   );
