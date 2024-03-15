@@ -2,6 +2,12 @@ import { redirect } from "next/navigation";
 import { StickyNotes } from "../components/StickyNote";
 import { getAuth } from "../api/auth/[...nextauth]/getAuth";
 import { trpc } from "../api/trpc/[trpc]/trpcClient";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "Personal notes",
+};
 
 export default async function Dashboard() {
   const session = await getAuth();
