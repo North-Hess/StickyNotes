@@ -1,16 +1,29 @@
 "use client";
 import Image from "next/image";
+import { useEffect } from "react";
 
 export function ThemeToggle() {
+  useEffect(() => {
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  });
   return (
     <button
       className="mr-4 h-8"
       onClick={() => {
-        const html = document.getElementById("html");
-        if (html && html.classList.contains("dark")) {
-          html.classList.remove("dark");
-        } else if (html) {
-          html?.classList.add("dark");
+        if (document.documentElement.classList.contains("dark")) {
+          localStorage.theme = "light";
+          document.documentElement.classList.remove("dark");
+        } else {
+          localStorage.theme = "dark";
+          document.documentElement.classList.add("dark");
         }
       }}
     >
