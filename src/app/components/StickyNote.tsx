@@ -38,7 +38,7 @@ function StickyNote(props: {
   };
 
   return (
-    <div className="flex h-72 w-1/4 flex-col rounded-sm border-2 border-black bg-yellow-200 shadow-xl">
+    <div className="flex h-72 w-72 flex-col rounded-sm border-2 border-black bg-yellow-200 shadow-xl">
       <div className="flex flex-row bg-yellow-300">
         <textarea
           maxLength={42}
@@ -135,7 +135,7 @@ export function StickyNotes(props: {
   const noteLimit = () => {
     if (notes.length < 12) {
       return (
-        <div className="flex flex-col justify-center">
+        <div className="flex w-72 flex-col justify-center">
           <button
             onClick={() => {
               addNewNote();
@@ -150,7 +150,7 @@ export function StickyNotes(props: {
   };
 
   return (
-    <div className="flex min-h-[288px] w-full flex-row flex-wrap justify-center gap-8">
+    <div className="flex min-h-[288px] w-full flex-row flex-wrap justify-center gap-8 px-4">
       {notes.map((note) => (
         <StickyNote note={note} removeNote={deleteNote} key={note.id} />
       ))}
