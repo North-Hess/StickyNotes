@@ -1,7 +1,9 @@
 import Image from "next/image";
-import type { SessionProp } from "./SessionProp";
+// import type { SessionProp } from "./SessionProp";
+import { getAuth } from "../api/auth/[...nextauth]/getAuth";
 
-export function ProfilePicture({ session }: SessionProp) {
+export async function ProfilePicture() {
+  const session = await getAuth();
   return (
     <Image
       src={session?.user?.image ?? "/favicon.ico"}

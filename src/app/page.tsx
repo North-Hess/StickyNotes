@@ -21,7 +21,7 @@ export default function Home() {
     "building a UI in general.";
   return (
     <>
-      <div className="grid h-80 w-full grid-cols-1 content-center">
+      <div className="grid h-80 grid-cols-1 content-center px-6">
         <h1 className="text-center font-mono text-6xl font-bold tracking-tight text-black dark:text-white">
           Notetaking Done Simple
         </h1>
@@ -30,7 +30,7 @@ export default function Home() {
         </h2>
       </div>
       <div className="mb-8 flex justify-center">
-        <div className="grid w-4/5 grid-cols-3">
+        <div className="grid w-4/5 grid-cols-1 grid-rows-3 gap-y-6 lg:grid-cols-3 lg:grid-rows-1">
           <InfoCard title="Why?" content={whyContent} />
           <InfoCard title="Tech Chosen" content={techContent} />
           <InfoCard title="Lessons" content={lessonsContent} />

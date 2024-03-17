@@ -14,7 +14,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark" id="html">
+    <html lang="en" className="" id="html">
       <body className="bg-white dark:bg-black">
         <SessionProvider>
           <header>

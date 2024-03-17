@@ -3,6 +3,7 @@ import { StickyNotes } from "../components/StickyNote";
 import { getAuth } from "../api/auth/[...nextauth]/getAuth";
 import { trpc } from "../api/trpc/[trpc]/trpcClient";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -20,7 +21,17 @@ export default async function Dashboard() {
 
   return (
     <div className="my-10">
-      <StickyNotes currentNotes={notes} userId={user?.id || ""} />
+      <Suspense
+        fallback={
+          <div className="flex flex-row justify-center">
+            <p className="font-mono text-3xl font-bold dark:text-white">
+              Loading notes...
+            </p>
+          </div>
+        }
+      >
+        <StickyNotes currentNotes={notes} userId={user?.id || ""} />
+      </Suspense>
     </div>
   );
 }
